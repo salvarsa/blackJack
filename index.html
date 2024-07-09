@@ -11,19 +11,16 @@
     <header class="titulo_header">Blackjack</header>
     <div class="row mt-2">
         <div class="col text-center">
-            <button class="btn btn-danger">Nuevo Juego</button>
-            <button class="btn btn-primary">Pedir carta</button>
-            <button class="btn btn-primary">Detener</button>
+            <button id="btnNuevo" class="btn btn-danger">Nuevo Juego</button>
+            <button id="btnPedir" class="btn btn-primary">Pedir carta</button>
+            <button id="btnDetener" class="btn btn-primary">Detener</button>
         </div>
     </div>
     <div class="row container">
         <div class="col">
             <h1>Jugador 1 - <small>0</small></h1>
             <div id="jugador-cartas">
-                <img class="carta" src="/assets/cartas/grey_back.png">
-                <img class="carta" src="/assets/cartas/grey_back.png">
-                <img class="carta" src="/assets/cartas/grey_back.png">
-                <img class="carta" src="/assets/cartas/grey_back.png">
+                <!-- <img class="carta" src="/assets/cartas/grey_back.png"> -->
             </div>
         </div>
     </div>
@@ -32,12 +29,10 @@
             <h1>Computadora - <small>0</small></h1>
             <div id="computadora-cartas">
                 <img class="carta" src="/assets/cartas/red_back.png">
-                <img class="carta" src="/assets/cartas/red_back.png">
-                <img class="carta" src="/assets/cartas/red_back.png">
-                <img class="carta" src="/assets/cartas/red_back.png">
             </div>
         </div>
     </div>
+    <script src="/assets/js/underscore-min.js"></script>
     <script src="/assets/js/juego.js"></script>
 </body>
 </html>
