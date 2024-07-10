@@ -14,10 +14,11 @@ let puntosConputadora = 0;
 
 //referencias del html
 const btnPedir = document.querySelector( '#btnPedir' );
-const divCartasJugador = document.querySelector('#jugador-cartas')
+const btnDetener = document.querySelector( '#btnDetener' );
+const btnNuevo = document.querySelector( '#btnNuevo' )
+const divCartasJugador = document.querySelector('#jugador-cartas');
+const divCartasComputadora = document.querySelector('#computadora-cartas')
 const puntosHTML = document.querySelectorAll('small');
-
-console.log({divCartasJugador});
 
 //función para crear la baraja
 const crearDeck = () => {
@@ -36,8 +37,6 @@ const crearDeck = () => {
     return deck
 }
 
-crearDeck()
-
 //Esta función me permite tomar una carta
 const pedirCarta = () => {
 
@@ -50,8 +49,6 @@ const pedirCarta = () => {
     return carta
 }
 
-
-pedirCarta()
 
 //para saber el valor de la carta
 const valorCarta = (carta) => {
@@ -75,8 +72,61 @@ const valorCarta = (carta) => {
 //     // console.log(puntos);
 // }
 
-//eventos
+//turno de la computadora
+const turnoComputadora = ( puntosMinimos ) => {
+    do {
+    const carta = pedirCarta()
+    puntosConputadora = puntosConputadora + valorCarta(carta)
+    puntosHTML[1].innerText = puntosConputadora
 
+    // <!-- <img class="carta" src="/assets/cartas/grey_back.png"> -->
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `/assets/cartas/${ carta }.png`
+    imgCarta.classList.add('carta')
+    divCartasComputadora.append(imgCarta)
+
+    if ( puntosMinimos > 21 ){
+        break;
+     }
+    } 
+    while( (puntosConputadora < puntosMinimos) && (puntosMinimos <= 21)){
+
+    }
+
+    setTimeout(() => {
+        if (puntosConputadora === puntosJugador){
+            swal({
+                title: 'Empate',
+                text: 'Nadie gana',
+                icon: 'error',
+                button: 'Intentar de nuevo',
+              });
+        }else if (puntosMinimos > 21){
+            swal({
+                title: 'Perdiste!!',
+                text: 'Paila parce',
+                icon: 'error',
+                button: 'odio mi vida',
+              });
+        }else if (puntosJugador === puntosMinimos){
+            swal({
+                title: 'Ganaste papu!!',
+                text: 'La computadora no es nada',
+                icon: "success",
+                button: 'Esoo hpta',
+              });
+        }else {
+            swal({
+                title: 'Gana la computadora!!',
+                text: 'Severo malo',
+                icon: "error",
+                button: 'Intentar de nuevo',
+              });
+        }
+    }, 10)
+}
+
+//eventos
 btnPedir.addEventListener('click', () => {
     const carta = pedirCarta()
     puntosJugador = puntosJugador + valorCarta(carta)
@@ -90,12 +140,57 @@ btnPedir.addEventListener('click', () => {
     
     //para controlar los puntos
     if ( puntosJugador > 21 ){
-        console.warn('perdiste');
+        swal({
+            title: 'perdiste!!',
+            text: 'Paila parce',
+            icon: 'error',
+            button: 'odio mi vida',
+          });
+        //console.warn('perdiste');
         btnPedir.disabled = true
+        btnDetener.disabled = true
+        turnoComputadora(puntosJugador);
     }else if (puntosJugador === 21){
-        console.warn('ganaste');
+        swal({
+            title: 'Ganaste!!',
+            text: 'Felicitaciones, ahora eres el GOAT',
+            icon: "success",
+            button: 'Siuuuuu',
+          });
+        //console.warn('ganaste');
         btnPedir.disabled = true
+        btnDetener.disabled = true
+        turnoComputadora(puntosJugador);
     }
 });
 
+btnDetener.addEventListener('click', () => {
+    btnPedir.disabled = true
+    btnDetener.disabled = true
+    turnoComputadora(puntosJugador);
+});
 
+
+btnNuevo.addEventListener('click', () => {
+    
+    console.clear()
+    deck = []
+    deck = crearDeck();
+
+    puntosJugador = 0;
+    puntosConputadora = 0;
+
+    puntosHTML[0].innerText = 0;
+    puntosHTML[1].innerText = 0;
+
+    divCartasComputadora.innerHTML = '';
+    divCartasJugador.innerHTML = '';
+
+    btnPedir.disabled = false;
+    btnDetener.disabled = false
+
+});
+
+
+crearDeck()
+pedirCarta()
